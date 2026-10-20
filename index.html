@@ -1,307 +1,668 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Omar — Discord Bot Developer & AI Assistant Builder</title>
-<style>
-  :root{
-    --bg:#070b10; --panel:#0d1420; --panel2:#101a28; --border:#1b2a3d;
-    --cyan:#00e5ff; --blue:#1e90ff; --green:#2ed573; --orange:#ffa502;
-    --text:#dbe9f5; --muted:#7d8fa3;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Tahoma,sans-serif;line-height:1.6}
-  .container{max-width:1080px;margin:0 auto;padding:0 20px}
-  nav{position:fixed;top:0;width:100%;background:rgba(7,11,16,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:100}
-  nav .container{display:flex;align-items:center;justify-content:space-between;height:60px}
-  .logo{font-weight:700;font-size:20px;color:var(--cyan);letter-spacing:2px}
-  .nav-links{display:flex;gap:24px;align-items:center}
-  .nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:.2s}
-  .nav-links a:hover{color:var(--cyan)}
-  .lang-btn{background:var(--panel2);border:1px solid var(--border);color:var(--cyan);padding:6px 14px;border-radius:20px;cursor:pointer;font-size:13px}
-  .hero{min-height:100vh;display:flex;align-items:center;text-align:center;position:relative;overflow:hidden}
-  .hero::before{content:'';position:absolute;width:600px;height:600px;border:1px solid var(--border);border-radius:50%;top:-200px;right:-150px;animation:spin 40s linear infinite}
-  .hero::after{content:'';position:absolute;width:400px;height:400px;border:1px dashed #16283d;border-radius:50%;bottom:-150px;left:-100px;animation:spin 30s linear infinite reverse}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .hero h1{font-size:clamp(34px,6vw,60px);font-weight:800;margin-bottom:12px}
-  .hero h1 span{color:var(--cyan)}
-  .hero p{color:var(--muted);font-size:clamp(16px,2.5vw,20px);max-width:640px;margin:0 auto 30px}
-  .badge{display:inline-block;background:var(--panel2);border:1px solid var(--border);color:var(--green);padding:6px 16px;border-radius:20px;font-size:13px;margin-bottom:22px}
-  .btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .btn{padding:13px 30px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;transition:.2s}
-  .btn-primary{background:var(--cyan);color:#04121a}
-  .btn-primary:hover{box-shadow:0 0 25px rgba(0,229,255,.4)}
-  .btn-ghost{border:1px solid var(--border);color:var(--text)}
-  .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
-  section{padding:80px 0}
-  h2{font-size:30px;margin-bottom:8px}
-  h2 span{color:var(--cyan)}
-  .sub{color:var(--muted);margin-bottom:40px}
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px}
-  .stat{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:26px;text-align:center}
-  .stat b{display:block;font-size:32px;color:var(--cyan)}
-  .stat small{color:var(--muted)}
-  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:30px;transition:.25s}
-  .card:hover{border-color:var(--cyan);transform:translateY(-4px)}
-  .card .icon{font-size:34px;margin-bottom:14px}
-  .card h3{margin-bottom:10px;font-size:19px}
-  .card p{color:var(--muted);font-size:14.5px}
-  .price{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:32px;text-align:center}
-  .price.featured{border-color:var(--cyan);position:relative}
-  .price.featured::before{content:'★ POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--cyan);color:#04121a;font-size:11px;font-weight:700;padding:3px 14px;border-radius:10px}
-  .price b{font-size:38px;color:var(--cyan);display:block;margin:10px 0}
-  .price ul{list-style:none;margin:18px 0;color:var(--muted);font-size:14px;text-align:left}
-  .price li{padding:7px 0;border-bottom:1px dashed var(--border)}
-  .price li::before{content:'✓ ';color:var(--green)}
-  .contact-box{background:linear-gradient(135deg,var(--panel),var(--panel2));border:1px solid var(--border);border-radius:18px;padding:50px;text-align:center}
-  .contact-box h2{margin-bottom:10px}
-  .contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px}
-  footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 0;border-top:1px solid var(--border)}
-  /* ===== Icons & trust strip ===== */
-  .icon svg{width:38px;height:38px;display:block}
-  .ico-discord{color:#5865F2}
-  .ico-dim{color:var(--cyan)}
-  .trust-strip{padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--panel)}
-  .trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-  .trust-item{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
-  .trust-item svg{width:26px;height:26px;flex:none;stroke:var(--cyan);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-  .pay-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(90deg,#8b2fd6,#c724b1);color:#fff;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:.3px}
-  /* ===== Flagship JARVIS showcase ===== */
-  #jarvis{background:linear-gradient(180deg,transparent,rgba(0,229,255,.05),transparent)}
-  .flagship{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:46px}
-  .flagship h2{font-size:34px;margin:14px 0}
-  .flagship p{color:var(--muted);margin-bottom:20px}
-  .feature-list{list-style:none;margin:0 0 26px;padding:0}
-  .feature-list li{padding:9px 0;border-bottom:1px dashed var(--border);font-size:15px}
-  .reactor{position:relative;width:220px;height:220px;margin:0 auto;display:flex;align-items:center;justify-content:center}
-  .reactor .ring{position:absolute;border-radius:50%;border:2px solid rgba(0,229,255,.35)}
-  .reactor .r1{width:220px;height:220px;border-style:dashed;animation:spin 18s linear infinite}
-  .reactor .r2{width:170px;height:170px;animation:spin 12s linear infinite reverse}
-  .reactor .r3{width:120px;height:120px;border-color:rgba(0,229,255,.6)}
-  .reactor .core{width:76px;height:76px;border-radius:50%;background:radial-gradient(circle,#bffaff,#00e5ff 45%,#056; 75%);box-shadow:0 0 40px rgba(0,229,255,.8),inset 0 0 20px #fff;animation:pulse 2.4s ease-in-out infinite}
-  @keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.12);opacity:1}}
-  @media(max-width:760px){.flagship{grid-template-columns:1fr;padding:30px}}
-  @media(max-width:600px){.nav-links a:not(.lang-btn){display:none}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Omar — Discord Bot Developer &amp; Server Security Specialist</title>
+  <meta name="description" content="I build custom Discord GuardBots with Anti-Nuke, Anti-Raid, Smart AutoMod &amp; AI protection for Egyptian &amp; Arabic communities.">
+  <style>
+    :root {
+      --bg: #000000;
+      --panel: #080000;
+      --panel2: #110000;
+      --border: #2a0000;
+      --red: #ff1e1e;
+      --red-glow: #ff3333;
+      --crimson: #d00000;
+      --text: #f5dede;
+      --muted: #a88a8a;
+      --green: #22c55e;
+      --orange: #ff6b1e;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: radial-gradient(circle at top, #1a0000 0%, #000000 55%);
+      color: var(--text);
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 22px
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, .9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      box-shadow: 0 10px 60px rgba(255, 30, 30, .08)
+    }
+
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 16px
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--red)
+    }
+
+    .logo small {
+      color: var(--muted);
+      letter-spacing: 4px;
+      font-weight: 500
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: .2s;
+      position: relative
+    }
+
+    .nav-links a:hover {
+      color: var(--text)
+    }
+
+    .nav-links a:hover::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent)
+    }
+
+    .lang-btn {
+      background: linear-gradient(90deg, rgba(255, 30, 30, .18), transparent);
+      border: 1px solid rgba(255, 30, 30, .6);
+      color: var(--text);
+      padding: 7px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    .hero::before,
+    .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: .25
+    }
+
+    .hero::before {
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, var(--red) 0%, transparent 70%);
+      top: -160px;
+      right: -120px
+    }
+
+    .hero::after {
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, var(--crimson) 0%, transparent 70%);
+      bottom: -200px;
+      left: -140px
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 30, 30, .8);
+      padding: 7px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 8px;
+      margin-bottom: 26px;
+      color: var(--muted)
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 8vw, 92px);
+      text-transform: uppercase;
+      letter-spacing: clamp(10px, 6vw, 28px);
+      margin-bottom: 18px
+    }
+
+    .hero h1 span {
+      color: var(--red);
+      text-shadow: 0 0 80px rgba(255, 30, 30, .4)
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 0 auto 34px;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 20px)
+    }
+
+    .btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap
+    }
+
+    .btn {
+      padding: 14px 38px;
+      border-radius: 999px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 6px;
+      font-size: 12px;
+      border: 1px solid transparent;
+      transition: .25s
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--crimson), var(--red));
+      color: #fff;
+      box-shadow: 0 40px 80px -60px var(--red)
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 70px rgba(255, 30, 30, .35)
+    }
+
+    .btn-ghost {
+      border-color: rgba(255, 30, 30, .6);
+      color: var(--text)
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--red);
+      color: #fff
+    }
+
+    section {
+      padding: 90px 0;
+      position: relative
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 56px
+    }
+
+    .section-head h2 {
+      text-transform: uppercase;
+      letter-spacing: clamp(10px, 6vw, 22px);
+      font-size: clamp(26px, 5vw, 48px);
+      margin-bottom: 12px
+    }
+
+    .section-head h2 span {
+      color: var(--red)
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0 auto
+    }
+
+    .divider {
+      height: 1px;
+      background: radial-gradient(circle, rgba(255, 30, 30, .6) 0%, transparent 70%)
+    }
+
+    .grid3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px
+    }
+
+    .card {
+      position: relative;
+      background: radial-gradient(circle at top, rgba(255, 30, 30, .12), transparent 70%), var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 38px;
+      overflow: hidden;
+      transition: .3s
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(255, 30, 30, .16), transparent 55%);
+      pointer-events: none
+    }
+
+    .card>* {
+      position: relative;
+      z-index: 2
+    }
+
+    .card:hover {
+      border-color: rgba(255, 30, 30, .9);
+      transform: translateY(-6px);
+      box-shadow: 0 60px 120px -80px var(--red)
+    }
+
+    .card-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 30, 30, .8);
+      margin-bottom: 24px;
+      font-size: 26px
+    }
+
+    .card h3 {
+      text-transform: uppercase;
+      letter-spacing: 10px;
+      font-size: 16px;
+      margin-bottom: 14px
+    }
+
+    .card p {
+      color: var(--muted)
+    }
+
+    .list-check {
+      list-style: none;
+      margin-top: 18px;
+      display: grid;
+      gap: 10px
+    }
+
+    .list-check li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    .list-check li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 6px rgba(255, 30, 30, .08)
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px
+    }
+
+    .price-card {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255, 30, 30, .14) 0%, transparent 70%), var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 44px;
+      text-align: center;
+      overflow: hidden
+    }
+
+    .price-card.featured {
+      border-color: rgba(255, 30, 30, .95);
+      box-shadow: 0 70px 140px -90px var(--red)
+    }
+
+    .price-card.featured::before {
+      content: attr(data-tag);
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-transform: uppercase;
+      letter-spacing: 10px;
+      font-size: 11px;
+      color: var(--red)
+    }
+
+    .price-card h3 {
+      text-transform: uppercase;
+      letter-spacing: 14px;
+      font-size: 15px;
+      margin-top: 18px;
+      margin-bottom: 16px
+    }
+
+    .price-card .amount {
+      font-size: clamp(56px, 10vw, 96px);
+      font-weight: 800
+    }
+
+    .price-card .amount small {
+      font-size: clamp(24px, 4vw, 38px);
+      margin-right: 12px;
+      color: var(--muted)
+    }
+
+    .price-card .period {
+      display: block;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 12px;
+      font-size: 11px;
+      margin-bottom: 28px
+    }
+
+    .price-card ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      text-align: left;
+      margin-bottom: 36px
+    }
+
+    .price-card li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      color: var(--muted)
+    }
+
+    .price-card li::before {
+      content: '▸';
+      color: var(--red);
+      margin-top: 2px
+    }
+
+    .contact {
+      text-align: center
+    }
+
+    .contact-panel {
+      position: relative;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top, rgba(255, 30, 30, .16), transparent 70%), var(--panel);
+      padding: clamp(40px, 10vw, 90px);
+      overflow: hidden
+    }
+
+    .contact-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear
+    }
+  </style>
 </head>
+
 <body>
-
-<nav>
-  <div class="container">
-    <div class="logo">OMAR<small style="color:var(--muted);font-weight:400;letter-spacing:0" data-en=".DEV" data-ar=" .ديف">.DEV</small></div>
-    <div class="nav-links">
-      <a href="#jarvis" data-en="J.A.R.V.I.S." data-ar="جارفيس">J.A.R.V.I.S.</a>
-      <a href="#services" data-en="Services" data-ar="الخدمات">Services</a>
-      <a href="#work" data-en="Work" data-ar="أعمالي">Work</a>
-      <a href="#pricing" data-en="Pricing" data-ar="الأسعار">Pricing</a>
-      <a href="#contact" data-en="Contact" data-ar="تواصل">Contact</a>
-      <button class="lang-btn" onclick="toggleLang()">🌐 <span id="langLabel">العربية</span></button>
-    </div>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="container">
-    <div class="badge" data-en="● Available for freelance work" data-ar="● متاح للعمل الحر">● Available for freelance work</div>
-    <h1><span data-en="Discord Bots" data-ar="بوتات ديسكورد">Discord Bots</span> &amp; <span data-en="AI Assistants" data-ar="مساعدين أذكياء">AI Assistants</span> <span data-en="that work for you" data-ar="تشتغل من أجلك">that work for you</span></h1>
-    <p data-en="I build custom Discord bots (moderation, tickets, leveling, economy) and JARVIS-style AI voice assistants — fast delivery, in English &amp; Arabic."
-       data-ar="ابني بوتات ديسكورد مخصصة (إدارة، تذاكر، مستويات، اقتصاد) ومساعدين صوتيين بستايل جارفيس — تسليم سريع، بالعربي والإنجليزي.">I build custom Discord bots (moderation, tickets, leveling, economy) and JARVIS-style AI voice assistants — fast delivery, in English &amp; Arabic.</p>
-    <div class="btns">
-      <a href="#contact" class="btn btn-primary" data-en="🚀 Hire Me" data-ar="🚀 وظّفني">🚀 Hire Me</a>
-      <a href="#work" class="btn btn-ghost" data-en="View My Work" data-ar="شوف أعمالي">View My Work</a>
-    </div>
-  </div>
-</header>
-
-<section>
-  <div class="container stats">
-    <div class="stat"><b>24/7</b><small data-en="Support" data-ar="دعم متواصل">Support</small></div>
-    <div class="stat"><b>2x</b><small data-en="Languages" data-ar="لغتين">Languages</small></div>
-    <div class="stat"><b>⚡</b><small data-en="Fast Delivery" data-ar="تسليم سريع">Fast Delivery</small></div>
-    <div class="stat"><b>100%</b><small data-en="Source Code" data-ar="كود المصدري">Source Code</small></div>
-  </div>
-</section>
-
-<section class="trust-strip">
-  <div class="container trust">
-    <div class="trust-item">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-      <span data-en="Fast delivery — 3 to 7 days" data-ar="تسليم سريع — من 3 لـ 7 أيام">Fast delivery —3 to7 days</span>
-    </div>
-    <div class="trust-item">
-      <svg viewBox="0 0 24 24"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6"/></svg>
-      <span data-en="You own 100% of the source code" data-ar="تملك100% من الكود المصدري">You own100% of the source code</span>
-    </div>
-    <div class="trust-item">
-      <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
-      <span data-en="Safe &amp; private project" data-ar="مشروع آمن وسري">Safe &amp; private project</span>
-    </div>
-    <div class="trust-item">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg>
-      <span data-en="Arabic &amp; English support" data-ar="دعم بالعربي والإنجليزي">Arabic &amp; English support</span>
-    </div>
-  </div>
-  <div class="container" style="margin-top:16px;text-align:center">
-    <span class="pay-badge">💳 <span data-en="Get paid via Payoneer — international &amp; local withdrawals" data-ar="استلام عبر بايونير — سحب دولي ومحلي">Get paid via Payoneer — international &amp; local withdrawals</span></span>
-  </div>
-</section>
-
-<section id="jarvis">
-  <div class="container">
-    <div class="flagship">
-      <div>
-        <div class="badge" data-en="⭐ FLAGSHIP PROJECT — LIVE & WORKING" data-ar="⭐ المشروع الرئيسي — شغال دلوقتي">⭐ FLAGSHIP PROJECT — LIVE &amp; WORKING</div>
-        <h2>J.A.R.V.I.S. <span data-en="AI Desktop Assistant" data-ar="مساعد سطح مكتب ذكي">AI Desktop Assistant</span></h2>
-        <p data-en="A full Iron Man–style voice assistant that runs on a Windows PC24/7 — it sees the screen, understands English & Arabic, and controls the computer."
-           data-ar="مساعد صوتي كامل بستايل Iron Man بيشتغل على ويندوز24 ساعة — بيشوف الشاشة، وفاهم عربي وإنجليزي، وبيتحكم في الجهاز.">A full Iron Man–style voice assistant that runs on a Windows PC24/7 — it sees the screen, understands English &amp; Arabic, and controls the computer.</p>
-        <ul class="feature-list">
-          <li data-en="🎙️ Voice in English &amp; Arabic — auto-detects which language" data-ar="🎙️ صوت بالعربي والإنجليزي — بيحدد اللغة تلقائيًا">🎙️ Voice in English &amp; Arabic — auto-detects which language</li>
-          <li data-en="👁️ Reads the screen and answers about what it sees" data-ar="👁️ بيقرأ الشاشة ويجاوب على اللي شايفه">👁️ Reads the screen and answers about what it sees</li>
-          <li data-en="🖥️ Opens apps &amp; sites, sets volume &amp; brightness" data-ar="🖥️ يفتح برامج ومواقع ويظبط الصوت والإضاءة">🖥️ Opens apps &amp; sites, sets volume &amp; brightness</li>
-          <li data-en="🧠 Permanent memory, reminders &amp; notes" data-ar="🧠 ذاكرة دائمة وتذكيرات وملاحظات">🧠 Permanent memory, reminders &amp; notes</li>
-          <li data-en="⚡ Live Arc Reactor HUD interface" data-ar="⚡ واجهة Arc Reactor متحركة">⚡ Live Arc Reactor HUD interface</li>
-        </ul>
-        <a href="#contact" class="btn btn-primary" data-en="Get one built for you →" data-ar="اطلب واحد زي ده ليك →">Get one built for you →</a>
-      </div>
-      <div class="reactor">
-        <div class="ring r1"></div>
-        <div class="ring r2"></div>
-        <div class="ring r3"></div>
-        <div class="core"></div>
+  <nav>
+    <div class="container">
+      <div class="logo">OMAR<small>.DEV</small></div>
+      <div class="nav-links">
+        <a href="#services" data-en="SERVICES" data-ar="الخدمات">SERVICES</a>
+        <a href="#guardbot" data-en="GUARDBOT" data-ar="GUARDBOT">GUARDBOT</a>
+        <a href="#pricing" data-en="PRICING" data-ar="الأسعار">PRICING</a>
+        <a href="#contact" data-en="CONTACT" data-ar="تواصل">CONTACT</a>
+        <button class="lang-btn" onclick="toggleLang()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="current" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path>
+          </svg>
+          <span id="langLabel">العربية</span>
+        </button>
       </div>
     </div>
-  </div>
-</section>
+  </nav>
 
-<section id="services">
-  <div class="container">
-    <h2 data-en="What I <span>Build</span>" data-ar="الخدمات <span>التي أقدمها</span>">What I <span>Build</span></h2>
-    <p class="sub" data-en="Everything runs on your server, under your control." data-ar="كل حاجة بتشتغل على سيرفرك، تحت سيطرتك.">Everything runs on your server, under your control.</p>
-    <div class="grid3">
-      <div class="card">
-        <div class="icon"><span class="ico-discord"><svg viewBox="0 0 24 256" fill="currentColor"><path d="M203.06 44.37a197.37 197.37 0 0 0-48.86-15.19.73.73 0 0 0-.78.37c-2.1 3.73-4.43 8.63-6.08 12.48a182.78 182.78 0 0 0-54.82 0c-1.66-3.94-4.05-8.84-6.17-12.48a.76.76 0 0 0-.78-.37A197.15 197.15 0 0 0 38.83 44.36a.7.7 0 0 0-.33.28C5.05 93.6-3.98 141.63.55 189.09a.78.78 0 0 0 .29.52 198.6 198.6 0 0 0 59.76 30.26.78.78 0 0 0 .85-.27c4.6-6.29 8.71-12.9 12.23-19.87a.75.75 0 0 0-.41-1.05c-6.51-2.46-12.73-5.48-18.67-9a.76.76 0 0 1-.08-1.25c1.26-.94 2.51-1.91 3.71-2.9a.74.74 0 0 1 .77-.1c39.33 17.99 81.93 17.99 120.86 0a.74.74 0 0 1 .78.1c1.2.99 2.45 1.96 3.71 2.9a.76.76 0 0 1-.07 1.25c-5.95 3.52-12.17 6.53-18.69 9a.76.76 0 0 0-.4 1.05c3.6 6.97 7.7 13.58 12.21 19.87a.74.74 0 0 0 .85.28 198.3 198.3 0 0 0 59.8-30.27.77.77 0 0 0 .29-.51c5.43-54.92-9.1-102.5-38.12-144.44a.6.6 0 0 0-.32-.29ZM80.12 159.87c-11.83 0-21.62-10.87-21.62-24.22s9.55-24.24 21.62-24.24c12.17 0 21.85 10.88 21.63 24.24 0 13.35-9.56 24.22-21.63 24.22Zm80.07 0c-11.84 0-21.62-10.87-21.62-24.22s9.55-24.24 21.62-24.24c12.18 0 21.86 10.88 21.64 24.24 0 13.35-9.46 24.22-21.64 24.22Z"/></svg></span></div>
-        <h3 data-en="Custom Discord Bots" data-ar="بوتات ديسكورد مخصصة">Custom Discord Bots</h3>
-        <p data-en="Moderation, anti-raid, auto-mod, welcome systems, reaction roles, logging — built exactly how you want."
-           data-ar="إدارة، حماية من الاختراق، ترحيب، رولات تفاعلية، سجلات — بالشكل اللي انت عايزه بالظبط.">Moderation, anti-raid, auto-mod, welcome systems, reaction roles, logging — built exactly how you want.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><span class="ico-dim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><circle cx="8.5" cy="11" r="1.6" fill="currentColor" stroke="none"/><circle cx="15.5" cy="11" r="1.6" fill="currentColor" stroke="none"/><path d="M12 4V1.5M12 1.5h.01M2 12v3M22 12v3"/></svg></span></div>
-        <h3 data-en="Ticket & Leveling Systems" data-ar="أنظمة التذاكر والمستويات">Ticket &amp; Leveling Systems</h3>
-        <p data-en="Professional support ticket panels, XP/leveling with leaderboards, economy &amp; gambling games."
-           data-ar="لوحات تذاكر احترافية، نظام XP ومستويات مع ترتيب، ونظام اقتصاد وألعاب.">Professional support ticket panels, XP/leveling with leaderboards, economy &amp; gambling games.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><span class="ico-dim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="2.5"/><path d="M11 4v3M13 4v3M11 17v3M13 17v3M4 11h3M4 13h3M17 11h3M17 13h3"/></svg></span></div>
-        <h3 data-en="AI Voice Assistants" data-ar="مساعدين صوتيين AI">AI Voice Assistants</h3>
-        <p data-en="JARVIS-style assistants: screen vision, voice in English &amp; Arabic, PC control, memory — like Iron Man's butler."
-           data-ar="مساعدين بستايل جارفيس: رؤية الشاشة، صوت بالعربي والإنجليزي، التحكم في الجهاز، وذاكرة — زي بتاع آيرمان.">JARVIS-style assistants: screen vision, voice in English &amp; Arabic, PC control, memory — like Iron Man's butler.</p>
+  <header class class "hero">
+    <div class="container hero-content">
+      <div class="badge" data-en="DISCORD SECURITY SPECIALIST" data-ar="متخصص في حماية سيرفرات الديسكورد">DISCORD SECURITY SPECIALIST</div>
+      <h1><span data-en="GUARD" data-ar="حماية">GUARD</span> <span data-en="SYSTEMS" data-ar="سيرفرات">SYSTEMS</span></h1>
+      <p data-en="I build hardened Discord GuardBots designed to stop raids, nukes and spam before they happen. Built for Egyptian &amp; Arabic communities with full Arabic &amp; English support."
+         data-ar="أبني بوتات حماية مخصصة لسيرفرات الديسكورد، مصممة لإيقاف الرايد والنيوك والسبام قبل ما يحصل. موجهة خصيصًا للكوميونتيز المصرية والعربية مع دعم كامل للعربية والإنجليزي.">I build hardened Discord GuardBots designed to stop raids, nukes and spam before they happen. Built for Egyptian &amp; Arabic communities with full Arabic &amp; English support.</p>
+      <div class="btns">
+        <a href="#pricing" class="btn btn-primary" data-en="SECURE YOUR SERVER" data-ar="احمي سيرفرك">SECURE YOUR SERVER</a>
+        <a href="#guardbot" class="btn btn-ghost" data-en="VIEW FEATURES" data-ar="شوف المميزات">VIEW FEATURES</a>
       </div>
     </div>
-  </div>
-</section>
+  </header>
 
-<section id="work">
-  <div class="container">
-    <h2 data-en="Featured <span>Work</span>" data-ar="أعمال <span>مميزة</span>">Featured <span>Work</span></h2>
-    <p class="sub" data-en="Real projects, live demos available on request." data-ar="مشاريع حقيقية، والديمو متاح عند الطلب.">Real projects, live demos available on request.</p>
-    <div class="grid3">
-      <div class="card">
-        <div class="icon">⚔️</div>
-        <h3 data-en="All-in-One Server Bot" data-ar="بوت شامل للسيرفر">All-in-One Server Bot</h3>
-        <p data-en="Moderation + anti-spam + leveling + tickets in one package. Invite it to your server and test it yourself."
-           data-ar="إدارة + حماية من السبام + مستويات + تذاكر في بوت واحد. دعوه لسيرفرك وجرّبه بنفسك.">Moderation + anti-spam + leveling + tickets in one package. Invite it to your server and test it yourself.</p>
+  <div class="divider"></div>
+
+  <section id="services">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-en="WHAT I <span>OFFER</span>" data-ar="أيه اللي <span>أقدمه</span>">WHAT I <span>OFFER</span></h2>
+        <p data-en="Professional Discord solutions built with precision, speed and long-term support." data-ar="حلول احترافية لبوتات الديسكورد، بتركيز على الدقة، السرعة، والدعم بعد البيع.">Professional Discord solutions built with precision, speed and long-term support.</p>
       </div>
-      <div class="card">
-        <div class="icon">💰</div>
-        <h3 data-en="Economy & Games Bot" data-ar="بوت اقتصاد وألعاب">Economy &amp; Games Bot</h3>
-        <p data-en="Currency, shop, daily rewards, gambling games and a global leaderboard to keep members active."
-           data-ar="عملة، متجر، مكافآت يومية، ألعاب حظ، وترتيب عام يخلي الأعضاء دايمين نشطين.">Currency, shop, daily rewards, gambling games and a global leaderboard to keep members active.</p>
-      </div>
-      <div class="card">
-        <div class="icon">🛡️</div>
-        <h3 data-en="Ticket & Support System" data-ar="نظام التذاكر والدعم">Ticket &amp; Support System</h3>
-        <p data-en="Button-based ticket panel with categories, transcripts, and staff management for communities."
-           data-ar="لوحة تذاكر بالأزرار مع تصنيفات وسجلات وإدارة للمشرفين.">Button-based ticket panel with categories, transcripts, and staff management for communities.</p>
+      <div class="grid3">
+        <div class="card">
+          <div class="card-icon">🛡️</div>
+          <h3 data-en="SERVER GUARD" data-ar="حماية السيرفر">SERVER GUARD</h3>
+          <p data-en="Anti-Nuke, Anti-Raid, channel/role/webhook protection with strict permission checks and instant action."
+             data-ar="حماية من النيوك والرايد، وحماية القنوات، الرتب، الويب هوكس، مع إجراءات فورية عند الخطر.">Anti-Nuke, Anti-Raid, channel/role/webhook protection with strict permission checks and instant action.</p>
+          <ul class="list-check">
+            <li data-en="Real-time threat detection" data-ar="كشف التهديدات لحظيًا">Real-time threat detection</li>
+            <li data-en="Role stripping on abuse" data-ar="سحب الرتب عند المخالفة">Role stripping on abuse</li>
+            <li data-en="Whitelist for trusted staff" data-ar="قائمة آمنة للمشرفين الموثوقين">Whitelist for trusted staff</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎫</div>
+          <h3 data-en="SUPPORT SYSTEM" data-ar="نظام الدعم">SUPPORT SYSTEM</h3>
+          <p data-en="Clean ticket panel with private channels, staff access, transcripts and logs for every closed ticket."
+             data-ar="لوحة تذاكر احترافية، قنوات خاصة، صلاحيات للفريق، وترانسكربت لكل تذكرة مغلقة.">Clean ticket panel with private channels, staff access, transcripts and logs for every closed ticket.</p>
+          <ul class="list-check">
+            <li data-en="Button-based panel" data-ar="لوحة بأزرار بسيطة">Button-based panel</li>
+            <li data-en="Auto-transcripts" data-ar="حفظ محادثة التذكرة تلقائياً">Auto-transcripts</li>
+            <li data-en="Category &amp; log channel setup" data-ar="إعداد التصنيفات وقناة السجلات">Category &amp; log channel setup</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon">🤖</div>
+          <h3 data-en="SMART AUTOMOD" data-ar="أوتومود ذكي">SMART AUTOMOD</h3>
+          <p data-en="Risk-based punishment ladder, invite/link blocking, spam prevention and optional FREE Gemini AI second opinion for borderline messages."
+             data-ar="نظام عقوبات متدرج حسب الخطورة، حظر الدعوات والروابط، منع السبام، ووضع ذكي مجانًا بالـ Gemini AI للفحص الإضافي.">Risk-based punishment ladder, invite/link blocking, spam prevention and optional FREE Gemini AI second opinion for borderline messages.</p>
+          <ul class="list-check">
+            <li data-en="Warning → Timeout → Punishment" data-ar="تحذير ← تايم أوت ← عقوبة">Warning → Timeout → Punishment</li>
+            <li data-en="Arabic &amp; English filtering" data-ar="فلترة بالعربية والإنجليزي">Arabic &amp; English filtering</li>
+            <li data-en="FREE AI Smart Mode" data-ar="وضع ذكي مجاني">FREE AI Smart Mode</li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="pricing">
-  <div class="container">
-    <h2 data-en="Simple <span>Pricing</span>" data-ar="أسعار <span>بسيطة</span>">Simple <span>Pricing</span></h2>
-    <p class="sub" data-en="Custom quotes for bigger projects — just ask." data-ar="في تسعير مخصص للمشاريع الكبيرة — كلمني.">Custom quotes for bigger projects — just ask.</p>
-    <div class="grid3">
-      <div class="price">
-        <h3 data-en="Basic" data-ar="أساسي">Basic</h3>
-        <b>$30</b>
-        <ul>
-          <li data-en="1 custom bot" data-ar="بوت واحد مخصص">1 custom bot</li>
-          <li data-en="Up to 5 commands" data-ar="حتى 5 أوامر">Up to 5 commands</li>
-          <li data-en="Setup on your server" data-ar="تركيب على سيرفرك">Setup on your server</li>
-          <li data-en="3 days delivery" data-ar="تسليم في 3 أيام">3 days delivery</li>
-        </ul>
-        <a href="#contact" class="btn btn-ghost" style="display:inline-block;margin-top:10px" data-en="Order" data-ar="اطلب">Order</a>
+  <div class="divider"></div>
+
+  <section id="guardbot">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-en="GUARDBOT <span>FEATURES</span>" data-ar="مميزات <span>GuardBot</span>">GUARDBOT <span>FEATURES</span></h2>
+        <p data-en="Everything you need to lock down your Discord server in one hardened bot." data-ar="كل حاجة عايزها عشان تحمي سيرفرك بالكامل في بوت واحد.">Everything you need to lock down your Discord server in one hardened bot.</p>
       </div>
-      <div class="price featured">
-        <h3 data-en="Standard" data-ar="متوسط">Standard</h3>
-        <b>$80</b>
-        <ul>
-          <li data-en="Full moderation bot" data-ar="بوت إدارة كامل">Full moderation bot</li>
-          <li data-en="Tickets + leveling + logs" data-ar="تذاكر + مستويات + سجلات">Tickets + leveling + logs</li>
-          <li data-en="Database included" data-ar="قاعدة بيانات مضمّنة">Database included</li>
-          <li data-en="7 days support" data-ar="دعم 7 أيام">7 days support</li>
-        </ul>
-        <a href="#contact" class="btn btn-primary" style="display:inline-block;margin-top:10px" data-en="Order" data-ar="اطلب">Order</a>
-      </div>
-      <div class="price">
-        <h3 data-en="Premium AI" data-ar="بريميوم AI">Premium AI</h3>
-        <b>$150</b>
-        <ul>
-          <li data-en="AI assistant (voice + vision)" data-ar="مساعد AI (صوت + رؤية)">AI assistant (voice + vision)</li>
-          <li data-en="Arabic + English" data-ar="عربي + إنجليزي">Arabic + English</li>
-          <li data-en="Full source code" data-ar="كود مصدري كامل">Full source code</li>
-          <li data-en="30 days support" data-ar="دعم 30 يوم">30 days support</li>
-        </ul>
-        <a href="#contact" class="btn btn-ghost" style="display:inline-block;margin-top:10px" data-en="Order" data-ar="اطلب">Order</a>
+      <div class="grid3">
+        <div class="card">
+          <h3 data-en="PROTECTION" data-ar="الحماية">PROTECTION</h3>
+          <ul class="list-check">
+            <li data-en="Anti-Nuke (channels/roles/bans/webhooks)" data-ar="مضاد النيوك (قنوات / رتب / حظر / ويب هوكس)">Anti-Nuke (channels/roles/bans/webhooks)</li>
+            <li data-en="Anti-Raid (mass joins lockdown)" data-ar="مضاد الرايد (قفل عند دخول جماعي)">Anti-Raid (mass joins lockdown)</li>
+            <li data-en="Untrusted bot removal" data-ar="إزالة البوتات غير الموثوقة">Untrusted bot removal</li>
+            <li data-en="Staff whitelist system" data-ar="قائمة مبيضه للـ Staff الموثوقين">Staff whitelist system</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 data-en="COMMUNITY" data-ar="المجتمع">COMMUNITY</h3>
+          <ul class="list-check">
+            <li data-en="Verification system with role on verify" data-ar="نظام التحقق وإعطاء رتبة بعده">Verification system with role on verify</li>
+            <li data-en="Welcome messages" data-ar="رسائل ترحيب">Welcome messages</li>
+            <li data-en="Ticket system with buttons" data-ar="نظام تذاكر بالأزرار">Ticket system with buttons</li>
+            <li data-en="Detailed mod-logs" data-ar="سجلات كاملة للمشرفين">Detailed mod-logs</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 data-en="SECURITY LOGIC" data-ar="منطق الحماية">SECURITY LOGIC</h3>
+          <ul class="list-check">
+            <li data-en="Risk scoring for every action/message" data-ar="نقاط خطر لكل فعل أو رسالة">Risk scoring for every action/message</li>
+            <li data-en="Escalation ladder (Warn → Timeout → Punish)" data-ar="سلم عقوبات متدرج">Escalation ladder (Warn → Timeout → Punish)</li>
+            <li data-en="FREE Gemini AI Smart Mode" data-ar="وضع ذكي مجاني بالـ Gemini AI">FREE Gemini AI Smart Mode</li>
+            <li data-en="Arabic &amp; English interface" data-ar="واجهة بالعربية والإنجليزي">Arabic &amp; English interface</li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="contact">
-  <div class="container">
-    <div class="contact-box">
-      <h2 data-en="Let's Build <span>Yours</span> 🚀" data-ar="يلا نبني <span>بتاعك</span> 🚀">Let's Build <span>Yours</span> 🚀</h2>
-      <p class="sub" data-en="Tell me what your server needs — I reply within a few hours."
-          data-ar="قولي سيرفرك محتاج ايه — هرد عليك في خلال ساعات.">Tell me what your server needs — I reply within a few hours.</p>
-      <div class="contact-links">
-        <a href="https://linktr.ee/gh_GHOST" class="btn btn-primary" target="_blank">💬 Links (gh_GHOST)</a>
-        <a href="mailto:o.tarek2250@gmail.com" class="btn btn-ghost">✉️ o.tarek2250@gmail.com</a>
+  <div class="divider"></div>
+
+  <section id="pricing">
+    <div class="container">
+      <div class="section-head">
+        <h2 data-en="PRICING <span>FOR EGYPT</span>" data-ar="أسعار <span>مناسبة للسوق المصري</span>">PRICING <span>FOR EGYPT</span></h2>
+        <p data-en="You pay for setup, protection, time and after-sales support. No hidden fees." data-ar="بتدفع مقابل الإعداد، الحماية، الوقت، ودعم ما بعد البيع. مفيش مصاريف خفية.">You pay for setup, protection, time and after-sales support. No hidden fees.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3 data-en="MODERATION" data-ar="إدارة + تذاكر">MODERATION</h3>
+          <div class="amount"><small>EGP</small>450</div>
+          <span class="period" data-en="ONE TIME" data-ar="مرة واحدة">ONE TIME</span>
+          <ul>
+            <li data-en="Moderation commands (ban/kick/warn/timeout/purge)" data-ar="أوامر إدارة كاملة">Moderation commands (ban/kick/warn/timeout/purge)</li>
+            <li data-en="Ticket system + transcripts" data-ar="نظام تذاكر + ترانسكربت">Ticket system + transcripts</li>
+            <li data-en="Mod-logs setup" data-ar="إعداد سجلات المشرفين">Mod-logs setup</li>
+            <li data-en="Full server setup &amp; permission check" data-ar="إعداد كامل + فحص الصلاحيات">Full server setup &amp; permission check</li>
+            <li data-en="3 days after-sale support" data-ar="دعم 3 أيام بعد التسليم">3 days after-sale support</li>
+          </ul>
+          <a href="#contact" class="btn btn-ghost" data-en="ORDER NOW" data-ar="اطلب الآن">ORDER NOW</a>
+        </div>
+        <div class="price-card featured" data-tag="MOST POPULAR">
+          <h3 data-en="GUARDBOT PRO" data-ar="GUARDBOT PRO">GUARDBOT PRO</h3>
+          <div class="amount"><small>EGP</small>650</div>
+          <span class="period" data-en="ONE TIME" data-ar="مرة واحدة">ONE TIME</span>
+          <ul>
+            <li data-en="Anti-Nuke + Anti-Raid protection" data-ar="حماية ضد النيوك والرايد">Anti-Nuke + Anti-Raid protection</li>
+            <li data-en="Smart AutoMod + Risk Scoring" data-ar="أوتومود ذكي + نقاط خطر">Smart AutoMod + Risk Scoring</li>
+            <li data-en="Verification system" data-ar="نظام التحقق">Verification system</li>
+            <li data-en="Tickets, Mod-Logs &amp; Alerts" data-ar="تذاكر، سجلات، تنبيهات">Tickets, Mod-Logs &amp; Alerts</li>
+            <li data-en="FREE Gemini AI Smart Mode" data-ar="وضع ذكي مجاني بالـ Gemini AI">FREE Gemini AI Smart Mode</li>
+            <li data-en="Staff whitelist + strict permissions" data-ar="قائمة آمنة + ضبط صلاحيات بدقة">Staff whitelist + strict permissions</li>
+            <li data-en="24/7 ready setup + 7 days after-sale support" data-ar="إعداد جاهز + دعم أول أسبوع مجانًا">24/7 ready setup + 7 days after-sale support</li>
+          </ul>
+          <a href="#contact" class="btn btn-primary" data-en="SECURE NOW" data-ar="احمي سيرفرك الآن">SECURE NOW</a>
+        </div>
+        <div class="price-card">
+          <h3 data-en="ALL-IN-ONE" data-ar="كل حاجة في بوت">ALL-IN-ONE</h3>
+          <div class="amount"><small>EGP</small>850</div>
+          <span class="period" data-en="ONE TIME" data-ar="مرة واحدة">ONE TIME</span>
+          <ul>
+            <li data-en="Everything in GuardBot PRO" data-ar="كل مميزات PRO">Everything in GuardBot PRO</li>
+            <li data-en="Leveling + XP System" data-ar="نظام المستويات + XP">Leveling + XP System</li>
+            <li data-en="Economy System + Shop" data-ar="نظام اقتصاد + متجر">Economy System + Shop</li>
+            <li data-en="Fun/Games commands" data-ar="أوامر ترفيه وألعاب">Fun/Games commands</li>
+            <li data-en="Leaderboard &amp; Rewards" data-ar="لوحة المتصدرين ومكافآت">Leaderboard &amp; Rewards</li>
+            <li data-en="Extended testing before delivery" data-ar="اختبار مكثف قبل التسليم">Extended testing before delivery</li>
+            <li data-en="14 days after-sale support" data-ar="دعم 14 يوم بعد التسليم">14 days after-sale support</li>
+          </ul>
+          <a href="#contact" class="btn btn-ghost" data-en="ORDER NOW" data-ar="اطلب الآن">ORDER NOW</a>
+        </div>
+      </div>
+      <div class="container" style="text:text-align:center; margin-top: 26px">
+        <p style="color: var(--muted)" data-en="* Prices are for Egyptian clients. For international orders via Fiverr, pricing is in USD ($49 – $95)."
+           data-ar="* الأسعار دي مخصصة للعملاء المصريين. لو هتطلب من خارج مصر عبر Fiverr الأسعار بالدولار.">* Prices are for Egyptian clients. For international orders via Fiverr, pricing is in USD ($49 – $95).</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer>
-  © 2026 <span data-en="OMAR.DEV — Discord Bots &amp; AI Assistants. Built with ❤ and a lot of coffee."
-               data-ar="OMAR.DEV — بوتات ديسكورد ومساعدين أذكياء. اتعمل بـ ❤ وكوباية قهوة كتير.">OMAR.DEV — Discord Bots &amp; AI Assistants. Built with ❤ and a lot of coffee.</span>
-</footer>
+  <div class="divider"></div>
 
-<script>
-let lang = 'en';
-function toggleLang(){
-  lang = lang === 'en' ? 'ar' : 'en';
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  document.querySelectorAll('[data-en]').forEach(el=>{
-    el.innerHTML = el.getAttribute('data-' + lang);
-  });
-  document.getElementById('langLabel').textContent = lang === 'en' ? 'العربية' : 'English';
-}
-</script>
+  <section id="contact">
+    <div class="container contact">
+      <div class="contact-panel">
+        <div class="section-head" style="margin-bottom: 30px">
+          <h2 data-en="SECURE YOUR <span>SERVER</span>" data-ar="احمي <span>سيرفرك</span> دلوقتي">SECURE YOUR <span>SERVER</span></h2>
+          <p data-en="Tell me your server needs, roles setup or any issue. I reply within a few hours with a clear quote."
+             data-ar="قول بس إيه اللي عايزه أو لو عندك مشكلة في السيرفر. هرد عليك خلال ساعات وأقولك السعر بالتفصيل.">Tell me your server needs, roles setup or any issue. I reply within a few hours with a clear quote.</p>
+        </div>
+        <div class="btns">
+          <a href="https://linktr.ee/gh_GHOST" target="_blank" class="btn btn-primary" data-en="CONTACT VIA LINKTREE" data-ar="تواصل عبر لينك تري">CONTACT VIA LINKTREE</a>
+          <a href="mailto:o.tarek2250@gmail.com" class="btn btn-ghost" data-en="SEND EMAIL" data-ar="أرسل إيميل">SEND EMAIL</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="text-align:center; padding: 30px 0; color: var(--muted); font-size: 13px">
+      © 2026 OMAR.DEV | <span data-en="Discord Server Security &amp; GuardBot Specialist" data-ar="متخصص في حماية سيرفرات الديسكورد">Discord Server Security &amp; GuardBot Specialist</span>
+    </div>
+  </footer>
+
+  <script>
+    let lang = 'en';
+    function toggleLang() {
+      lang = lang === 'en' ? 'ar' : 'en';
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.innerHTML = el.getAttribute('data-' + lang);
+      });
+      document.getElementById('langLabel').textContent = lang === 'en' ? 'العربية' : 'English';
+    }
+  </script>
 </body>
+
 </html>
