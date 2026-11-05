@@ -4,40 +4,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CYBERGUARD | Discord GuardBot Specialist</title>
+  <title>CYBERGUARD | Custom Discord Bot Development Studio</title>
   <meta name="description"
-    content="I build hardened Discord GuardBots to protect your server from Anti-Nuke, Anti-Raid, spam & threats. Arabic & English support.">
+    content="I develop custom Discord GuardBots with anti-nuke, anti-raid, smart moderation, verification, tickets, and Arabic/English support.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Manrope:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
     :root {
-      --bg: #000000;
-      --panel: #060000;
-      --panel-2: #100000;
-      --border: #2b0000;
-      --red: #ff1f1f;
-      --red-2: #d00000;
-      --text: #f5f5f5;
-      --text-2: #b9a7a7;
-      --green: #22c55e;
+      --bg: #070505;
+      --surface: #100707;
+      --red: #E53935;
+      --red-dark: #8F1D1D;
+      --text: #F4F1ED;
+      --text-2: #B9AFAF;
+      --border: rgba(143, 29, 29, 0.35);
+      --border-strong: rgba(143, 29, 29, 0.6);
+      --glow: rgba(229, 57, 53, 0.22);
+      --focus: #E53935;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html {
       scroll-behavior: smooth;
-      scroll-padding-top: 90px;
+      scroll-padding-top: 88px;
     }
 
     body {
-      background: radial-gradient(circle at top, #1a0000 0%, #000000 60%);
+      background: var(--bg);
       color: var(--text);
-      line-height: 1.8;
+      font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
       overflow-x: hidden;
+    }
+
+    [lang="ar"] body,
+    [dir="rtl"] body {
+      font-family: "IBM Plex Sans Arabic", "Manrope", system-ui, sans-serif;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
     img {
@@ -45,584 +65,533 @@
       display: block;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
     ul {
       list-style: none;
     }
 
     .container {
-      width: min(1140px, 100%);
+      width: min(1180px, 100%);
       margin: 0 auto;
       padding: 0 24px;
     }
 
+    /* ---------- Typography ---------- */
+    h1, h2, h3, .eyebrow, .btn, .price-kicker, .price-amount {
+      font-family: "Chakra Petch", "Manrope", system-ui, sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    [lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3,
+    [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+    [lang="ar"] .eyebrow, [dir="rtl"] .eyebrow,
+    [lang="ar"] .btn, [dir="rtl"] .btn {
+      font-family: "IBM Plex Sans Arabic", sans-serif;
+      letter-spacing: 0;
+      font-weight: 600;
+    }
+
+    h1 { font-size: clamp(34px, 5.5vw, 64px); line-height: 1.05; }
+    h2 { font-size: clamp(26px, 4vw, 40px); line-height: 1.1; }
+    h3 { font-size: clamp(18px, 2.2vw, 22px); line-height: 1.25; }
+
+    p { color: var(--text-2); }
+
+    /* ---------- Focus ---------- */
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ---------- Header ---------- */
     header {
       position: fixed;
       top: 0;
       width: 100%;
-      z-index: 10;
-      background: radial-gradient(circle, rgba(26, 0, 0, .95) 0%, rgba(0, 0, 0, .9) 100%);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255, 31, 31, .25);
+      z-index: 30;
+      background: rgba(7, 5, 5, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
     }
 
     nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      height: 78px;
+      gap: 20px;
+      height: 76px;
     }
 
     .logo {
       display: flex;
       align-items: baseline;
-      gap: 10px;
-      text-transform: uppercase;
-      letter-spacing: 16px;
-      font-weight: 800;
+      gap: 8px;
+      font-family: "Chakra Petch", sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 0.02em;
     }
 
-    .logo-main {
-      color: var(--red);
-    }
-
-    .logo-sub {
-      color: var(--text-2);
-      letter-spacing: 10px;
-      font-size: 12px;
-    }
+    .logo-main { color: var(--red); }
+    .logo-sub { color: var(--text-2); font-size: 12px; font-weight: 500; }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: clamp(16px, 4vw, 34px);
+      gap: clamp(18px, 3vw, 34px);
     }
 
     .nav-links a {
-      position: relative;
-      text-transform: uppercase;
-      letter-spacing: 8px;
-      font-size: 11px;
+      font-size: 14px;
+      font-weight: 500;
       color: var(--text-2);
-      transition: color .25s ease;
+      position: relative;
+      padding: 6px 0;
+      transition: color 0.2s ease;
     }
 
-    .nav-links a::after {
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text);
+    }
+
+    .nav-links a.active::after {
       content: "";
       position: absolute;
       left: 0;
-      bottom: -14px;
+      bottom: -2px;
       width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--red), transparent);
-      transform: scaleX(0);
-      transform-origin: center;
-      transition: transform .25s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    .nav-links a:hover::after {
-      transform: scaleX(1);
+      height: 2px;
+      background: var(--red);
     }
 
     .lang-toggle {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 31, 31, .8);
-      padding: 9px 18px;
-      text-transform: uppercase;
-      letter-spacing: 8px;
-      font-size: 10px;
-      background: linear-gradient(90deg, rgba(255, 31, 31, .22), transparent);
+      gap: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-strong);
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      background: transparent;
       color: var(--text);
       cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .lang-toggle:hover {
+      border-color: var(--red);
+      color: var(--red);
     }
 
     .menu-toggle {
       display: none;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
       background: none;
       border: none;
+      cursor: pointer;
+      padding: 6px;
     }
 
     .menu-toggle span {
-      width: 24px;
-      height: 1px;
+      width: 22px;
+      height: 2px;
       background: var(--text);
+      transition: transform 0.2s ease;
     }
 
+    /* ---------- Hero ---------- */
     .hero {
       position: relative;
-      padding: 190px 0 130px;
-      text-align: center;
+      padding: 150px 0 110px;
+      overflow: hidden;
     }
 
-    .hero::before,
-    .hero::after {
+    /* single subtle glow behind hero CTA area */
+    .hero::before {
       content: "";
       position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 520px;
+      height: 520px;
       border-radius: 50%;
-      filter: blur(140px);
-      opacity: .24;
-    }
-
-    .hero::before {
-      width: 460px;
-      height: 460px;
-      top: -220px;
-      right: -160px;
-      background: radial-gradient(circle, var(--red) 0%, transparent 70%);
-    }
-
-    .hero::after {
-      width: 380px;
-      height: 380px;
-      bottom: -240px;
-      left: -180px;
-      background: radial-gradient(circle, var(--red-2) 0%, transparent 70%);
+      background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+      filter: blur(40px);
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 0;
     }
 
     .hero-content {
       position: relative;
-      z-index: 2;
+      z-index: 1;
+      max-width: 900px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 26px;
+      gap: 22px;
     }
 
     .eyebrow {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--red);
       text-transform: uppercase;
-      letter-spacing: 14px;
-      font-size: 11px;
-      color: var(--text-2);
     }
 
-    .eyebrow::before,
-    .eyebrow::after {
+    .eyebrow::before {
       content: "";
-      width: 60px;
+      width: 32px;
       height: 1px;
-      background: radial-gradient(circle, rgba(255, 31, 31, .9) 0%, transparent 70%);
+      background: var(--red);
     }
 
     .hero-title {
-      text-transform: uppercase;
-      letter-spacing: clamp(12px, 10vw, 46px);
-      font-size: clamp(38px, 12vw, 140px);
-      line-height: .9;
+      max-width: 900px;
+      color: var(--text);
     }
 
-    .hero-title .red {
-      color: var(--red);
-      text-shadow: 0 0 120px rgba(255, 31, 31, .38);
-    }
-
-    .hero-subtitle {
-      max-width: 820px;
+    .hero-desc {
+      max-width: 640px;
+      font-size: 18px;
       color: var(--text-2);
-      font-size: clamp(16px, 2vw, 20px);
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
-      gap: 16px;
+      gap: 14px;
+      margin-top: 6px;
     }
 
+    /* ---------- Buttons ---------- */
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      border-radius: 999px;
-      padding: 16px 42px;
-      text-transform: uppercase;
-      letter-spacing: 10px;
-      font-size: 11px;
+      gap: 10px;
+      border-radius: 8px;
+      padding: 14px 26px;
+      font-size: 14px;
+      font-weight: 600;
       border: 1px solid transparent;
-      transition: .25s ease;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      will-change: transform;
     }
 
     .btn-primary {
-      background: linear-gradient(90deg, var(--red-2), var(--red));
+      background: var(--red);
       color: #fff;
-      box-shadow: 0 70px 120px -80px var(--red);
+      border-color: var(--red);
+      position: relative;
     }
 
     .btn-primary:hover {
-      box-shadow: 0 0 90px rgba(255, 31, 31, .32);
+      background: #ff4a45;
+      border-color: #ff4a45;
+      transform: translateY(-1px);
+    }
+
+    /* restrained red pulse/glow around primary hero CTA */
+    .hero .btn-primary {
+      animation: pulse 2.6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.45); }
+      50% { box-shadow: 0 0 0 10px rgba(229, 57, 53, 0); }
     }
 
     .btn-ghost {
-      border-color: rgba(255, 31, 31, .8);
+      background: transparent;
       color: var(--text);
+      border-color: var(--border-strong);
     }
 
     .btn-ghost:hover {
       border-color: var(--red);
+      color: var(--red);
     }
 
-    .strip {
-      border-block: 1px solid rgba(255, 31, 31, .25);
-      background: radial-gradient(circle, rgba(255, 31, 31, .12) 0%, transparent 70%);
-    }
-
-    .strip-inner {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-      padding: 18px 0;
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 12px;
-      font-size: 10px;
-      color: var(--text-2);
-    }
-
+    /* ---------- Sections ---------- */
     section {
-      padding: 110px 0;
+      padding: 96px 0;
     }
 
     .section-header {
-      text-align: center;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 64px;
+      gap: 14px;
+      margin-bottom: 52px;
+      max-width: 720px;
     }
 
-    .section-title {
-      text-transform: uppercase;
-      letter-spacing: clamp(12px, 8vw, 26px);
-      font-size: clamp(26px, 6vw, 56px);
-    }
+    .section-title { color: var(--text); }
+    .section-text { font-size: 17px; max-width: 620px; }
 
-    .section-title .red {
-      color: var(--red);
-    }
-
-    .section-text {
-      max-width: 760px;
-      color: var(--text-2);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 22px;
-    }
-
+    /* ---------- Cards ---------- */
     .card {
-      position: relative;
-      border-radius: 20px;
+      background: #0a0606;
       border: 1px solid var(--border);
-      background: radial-gradient(circle at top, rgba(255, 31, 31, .16) 0%, transparent 70%), linear-gradient(180deg, rgba(16, 0, 0, .95) 0%, rgba(6, 0, 0, .98) 100%);
-      overflow: hidden;
+      border-radius: 12px;
+      padding: 30px;
       display: flex;
       flex-direction: column;
-      min-height: 100%;
+      gap: 16px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
     }
 
-    .card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top right, rgba(255, 31, 31, .14), transparent 55%);
-      pointer-events: none;
-    }
-
-    .card-content {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      padding: clamp(30px, 6vw, 48px);
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
     }
 
     .card-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255, 31, 31, .9);
+      border: 1px solid var(--border-strong);
       color: var(--red);
-      font-size: 26px;
+      font-size: 20px;
+      background: rgba(229, 57, 53, 0.06);
     }
 
     .card-kicker {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--red);
       text-transform: uppercase;
-      letter-spacing: 10px;
-      font-size: 11px;
-      color: var(--text-2);
     }
 
-    .card-title {
-      text-transform: uppercase;
-      letter-spacing: 14px;
-      font-size: clamp(16px, 2vw, 20px);
-    }
-
-    .card-text {
-      color: var(--text-2);
-    }
+    .card-text { font-size: 15px; }
 
     .check-list {
       display: grid;
-      gap: 12px;
+      gap: 10px;
     }
 
     .check-list li {
       display: flex;
       align-items: flex-start;
-      gap: 14px;
+      gap: 12px;
       color: var(--text-2);
+      font-size: 15px;
     }
 
     .check-list li::before {
       content: "";
-      margin-top: 10px;
+      margin-top: 9px;
       width: 6px;
       height: 6px;
       border-radius: 50%;
       background: var(--red);
-      box-shadow: 0 0 0 8px rgba(255, 31, 31, .08);
+      flex-shrink: 0;
     }
 
-    .pricing {
+    /* ---------- Grid ---------- */
+    .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 22px;
+      gap: 20px;
+    }
+
+    /* ---------- Pricing ---------- */
+    .pricing {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
       align-items: stretch;
     }
 
     .price-card {
-      position: relative;
-      border-radius: 24px;
+      background: #0a0606;
       border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255, 31, 31, .16) 0%, transparent 70%), linear-gradient(180deg, rgba(16, 0, 0, .98) 0%, rgba(6, 0, 0, 1) 100%);
-      text-align: center;
-      overflow: hidden;
+      border-radius: 14px;
+      padding: 32px;
       display: flex;
       flex-direction: column;
+      gap: 18px;
+      position: relative;
     }
 
     .price-card.featured {
-      border-color: rgba(255, 31, 31, .95);
-      box-shadow: 0 90px 160px -110px var(--red);
+      border-color: var(--red);
+      box-shadow: 0 0 0 1px var(--red) inset;
     }
 
     .price-card.featured::before {
       content: attr(data-badge);
       position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-transform: uppercase;
-      letter-spacing: 12px;
-      font-size: 10px;
+      top: 18px;
+      right: 18px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
       color: var(--red);
-    }
-
-    .price-content {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      padding: clamp(40px, 8vw, 64px);
+      text-transform: uppercase;
     }
 
     .price-kicker {
-      text-transform: uppercase;
-      letter-spacing: 16px;
-      font-size: 11px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
       color: var(--text-2);
+      text-transform: uppercase;
     }
 
     .price-amount {
       display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 12px;
-      font-size: clamp(70px, 14vw, 130px);
-      font-weight: 800;
+      align-items: baseline;
+      gap: 10px;
+      font-size: clamp(40px, 6vw, 56px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
     }
 
-    .price-currency {
-      font-size: clamp(28px, 6vw, 48px);
-      margin-top: 18px;
+    .price-amount .egp {
+      font-size: 16px;
       color: var(--text-2);
+      font-weight: 500;
+      font-family: "Manrope", sans-serif;
     }
 
-    .price-period {
-      text-transform: uppercase;
-      letter-spacing: 16px;
-      font-size: 10px;
+    .price-meta {
+      font-size: 13px;
       color: var(--text-2);
+      font-weight: 500;
     }
 
     .price-list {
       display: grid;
-      gap: 14px;
-      text-align: left;
-      margin-top: 12px;
+      gap: 10px;
+      margin-top: 4px;
     }
 
     .price-list li {
       display: flex;
       align-items: flex-start;
-      gap: 16px;
+      gap: 12px;
       color: var(--text-2);
+      font-size: 15px;
     }
 
     .price-list li::before {
-      content: "▸";
-      color: var(--red);
-      margin-top: 2px;
+      content: "";
+      margin-top: 9px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--red);
+      flex-shrink: 0;
     }
 
     .price-note {
-      margin-top: 28px;
-      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
       color: var(--text-2);
+      max-width: 680px;
     }
 
+    /* ---------- Contact ---------- */
     .cta {
-      text-align: center;
+      text-align: left;
     }
 
     .cta-panel {
-      position: relative;
-      border-radius: 28px;
+      background: var(--surface);
       border: 1px solid var(--border);
-      background: radial-gradient(circle at top, rgba(255, 31, 31, .2) 0%, transparent 70%), linear-gradient(180deg, rgba(16, 0, 0, .98) 0%, rgba(6, 0, 0, 1) 100%);
-      overflow: hidden;
-      padding: clamp(46px, 12vw, 110px);
+      border-radius: 16px;
+      padding: clamp(36px, 6vw, 64px);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 24px;
+      gap: 20px;
+      max-width: 760px;
     }
 
-    .cta-panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(rgba(255, 31, 31, .12) 1px, transparent 1px);
-      background-size: 80px 80px;
-      opacity: .16;
-      mix-blend-mode: screen;
+    .cta-panel .section-text { max-width: 600px; }
+
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 6px;
     }
 
-    .cta-panel>* {
-      position: relative;
-      z-index: 2;
-    }
-
+    /* ---------- Footer ---------- */
     footer {
-      border-top: 1px solid rgba(255, 31, 31, .25);
-      padding: 26px 0;
-      text-align: center;
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
       color: var(--text-2);
-      text-transform: uppercase;
-      letter-spacing: 12px;
-      font-size: 10px;
+      font-size: 13px;
     }
 
-    [dir="rtl"] body {
-      font-family: "Cairo", "Tahoma", sans-serif;
+    /* ---------- RTL ---------- */
+    [dir="rtl"] .nav-links { flex-direction: row-reverse; }
+    [dir="rtl"] .hero-content { text-align: right; }
+    [dir="rtl"] .section-header { text-align: right; }
+    [dir="rtl"] .check-list li { flex-direction: row-reverse; text-align: right; }
+    [dir="rtl"] .price-list li { flex-direction: row-reverse; text-align: right; }
+    [dir="rtl"] .cta { text-align: right; }
+    [dir="rtl"] .cta-panel { text-align: right; }
+    [dir="rtl"] .eyebrow::before { display: none; }
+    [dir="rtl"] .price-card.featured::before { right: auto; left: 18px; }
+
+    [dir="rtl"] .btn, [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+    [dir="rtl"] p, [dir="rtl"] li, [dir="rtl"] span {
+      letter-spacing: 0;
     }
 
-    [dir="rtl"] .nav-links a,
-    [dir="rtl"] .eyebrow,
-    [dir="rtl"] .hero-title,
-    [dir="rtl"] .section-title,
-    [dir="rtl"] .card-title,
-    [dir="rtl"] .price-kicker,
-    [dir="rtl"] .price-period,
-    [dir="rtl"] .logo,
-    [dir="rtl"] .lang-toggle,
-    [dir="rtl"] .btn,
-    [dir="rtl"] footer {
-      letter-spacing: normal;
-    }
-
-    [dir="rtl"] .eyebrow::before,
-    [dir="rtl"] .eyebrow::after {
-      display: none;
-    }
-
-    [dir="rtl"] .price-list li {
-      flex-direction: row-reverse;
-      text-align: right;
-    }
-
-    [dir="rtl"] .check-list li {
-      flex-direction: row-reverse;
-      text-align: right;
-    }
-
-    [dir="rtl"] .hero-title {
-      letter-spacing: clamp(8px, 6vw, 28px);
-    }
-
-    @media (max-width: 980px) {
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
       .nav-links {
         position: fixed;
-        top: 78px;
+        top: 76px;
         right: 0;
         left: 0;
         flex-direction: column;
-        background: rgba(0, 0, 0, .98);
-        border-bottom: 1px solid rgba(255, 31, 31, .25);
-        padding: 18px 0;
+        align-items: flex-start;
+        background: rgba(7, 5, 5, 0.98);
+        border-bottom: 1px solid var(--border);
+        padding: 16px 24px;
         transform: translateY(-120%);
-        transition: transform .25s ease;
+        transition: transform 0.25s ease;
+        gap: 14px;
       }
-
-      .nav-links.active {
-        transform: translateY(0);
-      }
-
-      .menu-toggle {
-        display: flex;
-      }
+      .nav-links.active { transform: translateY(0); }
+      .menu-toggle { display: flex; }
+      [dir="rtl"] .nav-links { align-items: flex-end; }
     }
 
-    @media (max-width: 720px) {
-      .eyebrow::before,
-      .eyebrow::after {
-        display: none;
-      }
+    @media (max-width: 640px) {
+      body { font-size: 16px; }
+      .hero { padding: 120px 0 80px; }
+      section { padding: 72px 0; }
+      .container { padding: 0 18px; }
+      .price-card { padding: 24px; }
+    }
 
-      .hero-title {
-        letter-spacing: clamp(10px, 12vw, 26px);
+    /* ---------- Reduced motion ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
       }
+      .hero .btn-primary { animation: none; }
     }
   </style>
 </head>
@@ -633,302 +602,202 @@
       <nav>
         <div class="logo">
           <span class="logo-main">CYBERGUARD</span>
-          <span class="logo-sub">.DEV</span>
+          <span class="logo-sub">STUDIO</span>
         </div>
         <div class="nav-links" id="nav-links">
-          <a href="#why" data-en="WHY ME" data-ar="ليه أختارك؟">WHY ME</a>
-          <a href="#features" data-en="FEATURES" data-ar="المميزات">FEATURES</a>
-          <a href="#pricing" data-en="PRICING" data-ar="الأسعار">PRICING</a>
-          <a href="#contact" data-en="CONTACT" data-ar="تواصل">CONTACT</a>
+          <a href="#features" data-en="Features" data-ar="المميزات">Features</a>
+          <a href="#pricing" data-en="Pricing" data-ar="الأسعار">Pricing</a>
+          <a href="#contact" data-en="Contact" data-ar="تواصل">Contact</a>
           <button class="lang-toggle" id="lang-toggle">
             <i class="bi bi-globe"></i>
-            <span data-en="ARABIC" data-ar="ENGLISH">ARABIC</span>
+            <span data-en="العربية" data-ar="English">العربية</span>
           </button>
         </div>
-        <button class="menu-toggle" id="menu-toggle">
-          <span></span>
-          <span></span>
-          <span></span>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
         </button>
       </nav>
     </div>
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero">
-      <div class="container hero-content">
-        <div class="eyebrow">
-          <span data-en="DISCORD SERVER SECURITY SPECIALIST" data-ar="متخصص في حماية سيرفرات الديسكورد">DISCORD SERVER SECURITY SPECIALIST</span>
-        </div>
-        <h1 class="hero-title">
-          <span class="red" data-en="PROTECT" data-ar="احمي">PROTECT</span>
-          <span data-en="BEFORE" data-ar="سيرفرك">BEFORE</span>
-          <span data-en="IT'S TOO LATE" data-ar="قبل ما يتحطّم">IT'S TOO LATE</span>
-        </h1>
-        <p class="hero-subtitle"
-          data-en="I build hardened Discord GuardBots to stop Anti-Nuke, Anti-Raid, spam &amp; abuse before they reach your server. Designed for Egyptian &amp; Arabic communities with full Arabic &amp; English support."
-          data-ar="أحمي سيرفرك من النيوك، الرايد، السبام وأي محاولة اختراق قبل ما تحصل. بوت حماية قوي مصمم خصيصًا للسوق المصري والعربي، يدعم العربية والإنجليزي بالكامل.">
-          I build hardened Discord GuardBots to stop Anti-Nuke, Anti-Raid, spam &amp; abuse before they reach your server. Designed for Egyptian &amp; Arabic communities with full Arabic &amp; English support.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#pricing">
-            <span data-en="SECURE MY SERVER" data-ar="احمي سيرفري الآن">SECURE MY SERVER</span>
-            <i class="bi bi-shield-lock"></i>
-          </a>
-          <a class="btn btn-ghost" href="#features">
-            <span data-en="SEE GUARD FEATURES" data-ar="شوف مميزات الحماية">SEE GUARD FEATURES</span>
-            <i class="bi bi-arrow-down"></i>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <div class="strip">
-      <div class="container strip-inner">
-        <span data-en="ANTI-NUKE • ANTI-RAID • SMART AUTOMOD • FREE AI SMART MODE" data-ar="مضاد النيوك • مضاد الرايد • أوتومود ذكي • وضع ذكي بالـ AI مجانًا">ANTI-NUKE • ANTI-RAID • SMART AUTOMOD • FREE AI SMART MODE</span>
-        <span data-en="TICKETS • MOD-LOGS • VERIFICATION • 24/7 READY" data-ar="تذاكر • سجلات المشرفين • نظام التحقق • جاهز للتشغيل">TICKETS • MOD-LOGS • VERIFICATION • 24/7 READY</span>
-        <span data-en="ARABIC & ENGLISH • EGYPTIAN PRICING" data-ar="عربي وإنجليزي • أسعار مناسبة للسوق المصري">ARABIC & ENGLISH • EGYPTIAN PRICING</span>
-      </div>
-    </div>
-
-    <section id="why">
       <div class="container">
-        <div class="section-header">
-          <div class="eyebrow">
-            <span data-en="WHY CHOOSE ME" data-ar="ليه تختارني بالضبط؟">WHY CHOOSE ME</span>
-          </div>
-          <h2 class="section-title">
-            <span data-en="PEACE OF" data-ar="راحة بال">PEACE OF</span>
-            <span class="red" data-en="MIND" data-ar="لأمان سيرفرك">MIND</span>
-          </h2>
-          <p class="section-text"
-            data-en="Most people sell you a 'bot'. I sell you protection. I set it up with precision, secure your permissions and stay with you after delivery."
-            data-ar="أغلبهم بيبيع لك 'بوت' ويقولك خلاص، أما أنا ببيعك 'حماية حقيقية'. بظبط كل حاجة بدقة، بأمن صلاحيات السيرفر، وأساعدك لو حصل أي حاجة بعد التسليم.">
-            Most people sell you a 'bot'. I sell you protection. I set it up with precision, secure your permissions and stay with you after delivery.
+        <div class="hero-content">
+          <span class="eyebrow" data-en="CUSTOM DISCORD BOT DEVELOPMENT" data-ar="تطوير بوتات ديسكورد مخصصة">CUSTOM DISCORD BOT DEVELOPMENT</span>
+          <h1 class="hero-title" data-en="BUILD A GUARDBOT BEFORE THEY GET IN" data-ar="ابنِ حارسًا قبل أن يدخلوا">BUILD A GUARDBOT BEFORE THEY GET IN</h1>
+          <p class="hero-desc"
+            data-en="I develop custom Discord GuardBots with anti-nuke, anti-raid, smart moderation, verification, tickets, and Arabic/English support."
+            data-ar="أطور بوتات حماية ديسكورد مخصصة مع مضاد النيوك، مضاد الرايد، إدارة ذكية، تحقق، تذاكر، ودعم عربي/إنجليزي.">
+            I develop custom Discord GuardBots with anti-nuke, anti-raid, smart moderation, verification, tickets, and Arabic/English support.
           </p>
-        </div>
-        <div class="grid">
-          <article class="card">
-            <div class="card-content">
-              <div class="card-header">
-                <div class="card-icon"><i class="bi bi-shield-check"></i></div>
-                <span class="card-kicker" data-en="PRECISE SETUP" data-ar="إعداد دقيق">PRECISE SETUP</span>
-              </div>
-              <h3 class="card-title" data-en="LOCKED DOWN RIGHT" data-ar="مظبوط من أول مرة">LOCKED DOWN RIGHT</h3>
-              <p class="card-text"
-                data-en="I don't just invite the bot. I fix role hierarchy, strip dangerous permissions, whitelist your trusted staff and test every protection before handover."
-                data-ar="مش بس بدعو البوت، بظبط ترتيب الرتب، أحذف صلاحيات خطيرة، أضع مشرفينك في قائمة آمنة، وأختبر كل حماية قبل ما أسلم السيرفر.">
-                I don't just invite the bot. I fix role hierarchy, strip dangerous permissions, whitelist your trusted staff and test every protection before handover.
-              </p>
-            </div>
-          </article>
-          <article class="card">
-            <div class="card-content">
-              <div class="card-header">
-                <div class="card-icon"><i class="bi bi-clock-history"></i></div>
-                <span class="card-kicker" data-en="TIME & VALUE" data-ar="وقت وقيمة">TIME & VALUE</span>
-              </div>
-              <h3 class="card-title" data-en="WORTH EVERY POUND" data-ar="يستاهل فعلاً">WORTH EVERY POUND</h3>
-              <p class="card-text"
-                data-en="Securing a server takes real focus. You're paying for knowledge, testing, anti-nuke logic and saving yourself the headache if an attack ever happens."
-                data-ar="حماية سيرفر مش كبسة زر، بتاخد وقت وجهد وفهم دقيق. أنت بتشتري راحة بال، لو حصل هجوم هتحمد إنك حميته قبل كده.">
-                Securing a server takes real focus. You're paying for knowledge, testing, anti-nuke logic and saving yourself the headache if an attack ever happens.
-              </p>
-            </div>
-          </article>
-          <article class="card">
-            <div class="card-content">
-              <div class="card-header">
-                <div class="card-icon"><i class="bi bi-headset"></i></div>
-                <span class="card-kicker" data-en="AFTER-SALE CARE" data-ar="دعم ما بعد البيع">AFTER-SALE CARE</span>
-              </div>
-              <h3 class="card-title" data-en="I DON'T DISAPPEAR" data-ar="مش هختفي بعد التسليم">I DON'T DISAPPEAR</h3>
-              <p class="card-text"
-                data-en="If you need a small tweak, help with permissions or have a question after setup, I'll help you for free during your support period."
-                data-ar="لو عايز تعديل صغير، أو في حاجة مش واضحة، أو محتاج مساعدة بعد ما أسلمك، هساعدك مجانًا خلال فترة الدعم اللي اتفقنا عليها.">
-                If you need a small tweak, help with permissions or have a question after setup, I'll help you for free during your support period.
-              </p>
-            </div>
-          </article>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contact">
+              <span data-en="BUILD MY GUARDBOT" data-ar="ابنِ حارسي الآن">BUILD MY GUARDBOT</span>
+              <i class="bi bi-shield-lock"></i>
+            </a>
+            <a class="btn btn-ghost" href="#features">
+              <span data-en="VIEW FEATURES" data-ar="شوف المميزات">VIEW FEATURES</span>
+              <i class="bi bi-arrow-down"></i>
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- FEATURES -->
     <section id="features">
       <div class="container">
         <div class="section-header">
-          <div class="eyebrow">
-            <span data-en="GUARDBOT ARSENAL" data-ar="ترسانة الحماية">GUARDBOT ARSENAL</span>
-          </div>
-          <h2 class="section-title">
-            <span data-en="BUILT TO" data-ar="مُصمم">BUILT TO</span>
-            <span class="red" data-en="NEUTRALIZE" data-ar="ليوقف الهجوم">NEUTRALIZE</span>
-          </h2>
+          <h2 class="section-title" data-en="BUILT TO NEUTRALIZE THREATS" data-ar="مُصمم لإيقاف التهديدات">BUILT TO NEUTRALIZE THREATS</h2>
           <p class="section-text"
-            data-en="Every module is built with one goal: keep your community safe without ruining the user experience."
-            data-ar="كل ميزة معمولة عشان تحمي سيرفرك بأقصى كفاءة، من غير ما تعطل الأعضاء عن الكلام أو الاستخدام العادي.">
-            Every module is built with one goal: keep your community safe without ruining the user experience.
+            data-en="Every module is engineered to keep your community safe without ruining the experience for real members."
+            data-ar="كل وحدة معمولة عشان تحمي مجتمعك بأقصى كفاءة، من غير ما تعطل الأعضاء عن الاستخدام العادي.">
+            Every module is engineered to keep your community safe without ruining the experience for real members.
           </p>
         </div>
         <div class="grid">
           <article class="card">
-            <div class="card-content">
-              <h3 class="card-title" data-en="INSTANT THREAT RESPONSE" data-ar="رد فوري على التهديدات">INSTANT THREAT RESPONSE</h3>
-              <ul class="check-list">
-                <li data-en="Anti-Nuke – Channels, Roles, Bans, Kicks &amp; Webhooks" data-ar="مضاد النيوك – قنوات، رتب، حظر، طرد، ويب هوكس">Anti-Nuke – Channels, Roles, Bans, Kicks &amp; Webhooks</li>
-                <li data-en="Anti-Raid – Mass joins detected &amp; locked down" data-ar="مضاد الرايد – كشف دخول جماعي وقفل السيرفر فورًا">Anti-Raid – Mass joins detected &amp; locked down</li>
-                <li data-en="Unauthorized bot detection &amp; removal" data-ar="كشف وإزالة البوتات غير المصرح بيها">Unauthorized bot detection &amp; removal</li>
-                <li data-en="Trusted whitelist for owners/staff" data-ar="قائمة آمنة للـOwner والمشرفين الموثوقين">Trusted whitelist for owners/staff</li>
-              </ul>
-            </div>
+            <div class="card-icon"><i class="bi bi-shield-check"></i></div>
+            <span class="card-kicker" data-en="INSTANT RESPONSE" data-ar="رد فوري">INSTANT RESPONSE</span>
+            <h3 data-en="Threat detection" data-ar="كشف التهديدات">Threat detection</h3>
+            <ul class="check-list">
+              <li data-en="Anti-Nuke: channels, roles, bans, kicks, webhooks" data-ar="مضاد النيوك: قنوات، رتب، حظر، طرد، ويب هوكس">Anti-Nuke: channels, roles, bans, kicks, webhooks</li>
+              <li data-en="Anti-Raid: mass-join detection and instant lockdown" data-ar="مضاد الرايد: كشف دخول جماعي وقفل السيرفر فورًا">Anti-Raid: mass-join detection and instant lockdown</li>
+              <li data-en="Unauthorized bot detection and removal" data-ar="كشف وإزالة البوتات غير المصرح بيها">Unauthorized bot detection and removal</li>
+              <li data-en="Trusted whitelist for owners and staff" data-ar="قائمة آمنة للـOwner والمشرفين">Trusted whitelist for owners and staff</li>
+            </ul>
           </article>
           <article class="card">
-            <div class="card-content">
-              <h3 class="card-title" data-en="SMART MODERATION" data-ar="إدارة ذكية">SMART MODERATION</h3>
-              <ul class="check-list">
-                <li data-en="Risk Scoring – Every action gets points" data-ar="نظام نقاط خطر – كل فعل بيحسب بنقاط">Risk Scoring – Every action gets points</li>
-                <li data-en="AutoMod – Invites, links, spam, bad words" data-ar="أوتومود – حظر الدعوات، الروابط، السبام، والكلمات المسيئة">AutoMod – Invites, links, spam, bad words</li>
-                <li data-en="FREE Gemini AI Smart Mode for borderline messages" data-ar="وضع ذكي مجانًا بـ Gemini AI للرسائل المشكوك فيها">FREE Gemini AI Smart Mode for borderline messages</li>
-                <li data-en="Escalation: Warn → Timeout → Punishment" data-ar="سلم العقوبات: تحذير ← تايم أوت ← عقوبة">Escalation: Warn → Timeout → Punishment</li>
-              </ul>
-            </div>
+            <div class="card-icon"><i class="bi bi-sliders"></i></div>
+            <span class="card-kicker" data-en="SMART MODERATION" data-ar="إدارة ذكية">SMART MODERATION</span>
+            <h3 data-en="Precision control" data-ar="تحكم دقيق">Precision control</h3>
+            <ul class="check-list">
+              <li data-en="Risk scoring: every action earns points" data-ar="نظام نقاط خطر: كل فعل بيحسب بنقاط">Risk scoring: every action earns points</li>
+              <li data-en="AutoMod: invites, links, spam, bad words" data-ar="أوتومود: حظر الدعوات، الروابط، السبام، والكلمات المسيئة">AutoMod: invites, links, spam, bad words</li>
+              <li data-en="AI-assisted review for borderline messages" data-ar="مراجعة بالـ AI للرسائل المشكوك فيها">AI-assisted review for borderline messages</li>
+              <li data-en="Escalation: warn, timeout, punishment" data-ar="سلم العقوبات: تحذير، تايم أوت، عقوبة">Escalation: warn, timeout, punishment</li>
+            </ul>
           </article>
           <article class="card">
-            <div class="card-content">
-              <h3 class="card-title" data-en="COMMUNITY TOOLS" data-ar="أدوات المجتمع">COMMUNITY TOOLS</h3>
-              <ul class="check-list">
-                <li data-en="Verification System – Gatekeeping done right" data-ar="نظام التحقق – يدخل الأعضاء بعد التحقق فقط">Verification System – Gatekeeping done right</li>
-                <li data-en="Ticket Panel – Private support with buttons" data-ar="لوحة تذاكر – تذكرة خاصة بأزرار بسيطة">Ticket Panel – Private support with buttons</li>
-                <li data-en="Auto-Transcripts on ticket close" data-ar="حفظ محادثة التذكرة تلقائياً عند الإغلاق">Auto-Transcripts on ticket close</li>
-                <li data-en="Detailed Mod-Logs &amp; Clean UI (Arabic/English)" data-ar="سجلات مشرفين مفصلة + واجهة بالعربية والإنجليزي">Detailed Mod-Logs &amp; Clean UI (Arabic/English)</li>
-              </ul>
-            </div>
+            <div class="card-icon"><i class="bi bi-people"></i></div>
+            <span class="card-kicker" data-en="COMMUNITY TOOLS" data-ar="أدوات المجتمع">COMMUNITY TOOLS</span>
+            <h3 data-en="Member experience" data-ar="تجربة الأعضاء">Member experience</h3>
+            <ul class="check-list">
+              <li data-en="Verification system for gated entry" data-ar="نظام تحقق لدخول الأعضاء">Verification system for gated entry</li>
+              <li data-en="Ticket panel with auto-transcripts" data-ar="لوحة تذاكر مع حفظ محادثات">Ticket panel with auto-transcripts</li>
+              <li data-en="Detailed mod-logs and clean UI" data-ar="سجلات مشرفين مفصلة + واجهة نظيفة">Detailed mod-logs and clean UI</li>
+              <li data-en="Arabic and English throughout" data-ar="عربي وإنجليزي بالكامل">Arabic and English throughout</li>
+            </ul>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- PRICING -->
     <section id="pricing">
       <div class="container">
         <div class="section-header">
-          <div class="eyebrow">
-            <span data-en="PRICING FOR EGYPTIAN CLIENTS" data-ar="أسعار مخصصة للسوق المصري">PRICING FOR EGYPTIAN CLIENTS</span>
-          </div>
-          <h2 class="section-title">
-            <span data-en="FAIR PRICE" data-ar="سعر">FAIR PRICE</span>
-            <span class="red" data-en="FOR REAL WORK" data-ar="مقابل شغل حقيقي">FOR REAL WORK</span>
-          </h2>
+          <h2 class="section-title" data-en="CUSTOM DEVELOPMENT PRICING" data-ar="أسعار التطوير المخصص">CUSTOM DEVELOPMENT PRICING</h2>
           <p class="section-text"
-            data-en="You're not buying a file. You're buying secure setup, strict permissions, testing, time &amp; after-sale support."
-            data-ar="مش بتشتري ملف، بتشتري إعداد دقيق، حماية قوية، فحص كامل، ووقت وجهد + دعم بعد التسليم.">
-            You're not buying a file. You're buying secure setup, strict permissions, testing, time &amp; after-sale support.
+            data-en="You are paying for engineered protection: architecture, testing, permission design, and long-term support."
+            data-ar="أنت بتشتري حماية مهندسة: تصميم، فحص، ضبط صلاحيات، ودعم طويل المدى.">
+            You are paying for engineered protection: architecture, testing, permission design, and long-term support.
           </p>
         </div>
         <div class="pricing">
           <article class="price-card">
-            <div class="price-content">
-              <span class="price-kicker" data-en="MOD + TICKETS" data-ar="إدارة + تذاكر">MOD + TICKETS</span>
-              <div class="price-amount">
-                <span class="price-currency">EGP</span>
-                <span>450</span>
-              </div>
-              <span class="price-period" data-en="ONE-TIME PAYMENT" data-ar="دفعة واحدة">ONE-TIME PAYMENT</span>
-              <ul class="price-list">
-                <li data-en="Full Moderation Commands" data-ar="أوامر إدارة كاملة">Full Moderation Commands</li>
-                <li data-en="Button Ticket Panel + Transcripts" data-ar="نظام تذاكر بالأزرار + ترانسكربت">Button Ticket Panel + Transcripts</li>
-                <li data-en="Mod-Logs Setup" data-ar="إعداد سجلات المشرفين">Mod-Logs Setup</li>
-                <li data-en="Role &amp; Permission Check" data-ar="فحص وإصلاح الصلاحيات">Role &amp; Permission Check</li>
-                <li data-en="Setup On Your Server" data-ar="تركيب وإعداد كامل على سيرفرك">Setup On Your Server</li>
-                <li data-en="3 Days After-Sale Support" data-ar="دعم 3 أيام بعد التسليم">3 Days After-Sale Support</li>
-              </ul>
-              <a class="btn btn-ghost" href="#contact">
-                <span data-en="ORDER THIS PACKAGE" data-ar="اطلب هذه الباقة">ORDER THIS PACKAGE</span>
-              </a>
+            <span class="price-kicker" data-en="BASIC" data-ar="أساسي">BASIC</span>
+            <div class="price-amount">
+              <span>$99</span>
+              <span class="egp">/ 2,500 EGP</span>
             </div>
+            <span class="price-meta" data-en="After-sale support: 14 days" data-ar="دعم ما بعد البيع: 14 يوم">After-sale support: 14 days</span>
+            <ul class="price-list">
+              <li data-en="Custom moderation bot" data-ar="بوت إدارة مخصص">Custom moderation bot</li>
+              <li data-en="Ticket system" data-ar="نظام تذاكر">Ticket system</li>
+              <li data-en="Mod logs" data-ar="سجلات مشرفين">Mod logs</li>
+              <li data-en="Role permissions" data-ar="صلاحيات الرتب">Role permissions</li>
+              <li data-en="14 days after-sale support" data-ar="14 يوم دعم ما بعد البيع">14 days after-sale support</li>
+            </ul>
+            <a class="btn btn-ghost" href="#contact">
+              <span data-en="START BASIC" data-ar="ابدأ بالأساسي">START BASIC</span>
+            </a>
           </article>
+
           <article class="price-card featured" data-badge="MOST POPULAR">
-            <div class="price-content">
-              <span class="price-kicker" data-en="GUARDBOT PRO" data-ar="GUARDBOT برو">GUARDBOT PRO</span>
-              <div class="price-amount">
-                <span class="price-currency">EGP</span>
-                <span>650</span>
-              </div>
-              <span class="price-period" data-en="ONE-TIME PAYMENT" data-ar="دفعة واحدة">ONE-TIME PAYMENT</span>
-              <ul class="price-list">
-                <li data-en="Anti-Nuke + Anti-Raid Full Protection" data-ar="حماية كاملة ضد النيوك والرايد">Anti-Nuke + Anti-Raid Full Protection</li>
-                <li data-en="Smart AutoMod + Risk Scoring System" data-ar="أوتومود ذكي + نظام نقاط الخطر">Smart AutoMod + Risk Scoring System</li>
-                <li data-en="FREE Gemini AI Smart Mode" data-ar="وضع ذكي مجاني بالـ Gemini AI">FREE Gemini AI Smart Mode</li>
-                <li data-en="Verification System" data-ar="نظام التحقق من الأعضاء">Verification System</li>
-                <li data-en="Tickets + Mod-Logs + Alerts" data-ar="تذاكر + سجلات مشرفين + تنبيهات">Tickets + Mod-Logs + Alerts</li>
-                <li data-en="Strict Permissions + Staff Whitelist" data-ar="ضبط صلاحيات بدقة + قائمة آمنة للـStaff">Strict Permissions + Staff Whitelist</li>
-                <li data-en="Fully Tested + 7 Days After-Sale Support" data-ar="مختبر بالكامل + دعم أول أسبوع مجانًا">Fully Tested + 7 Days After-Sale Support</li>
-              </ul>
-              <a class="btn btn-primary" href="#contact">
-                <span data-en="SECURE MY SERVER NOW" data-ar="احمي سيرفري الآن">SECURE MY SERVER NOW</span>
-              </a>
+            <span class="price-kicker" data-en="STANDARD" data-ar="قياسي">STANDARD</span>
+            <div class="price-amount">
+              <span>$199</span>
+              <span class="egp">/ 5,000 EGP</span>
             </div>
+            <span class="price-meta" data-en="After-sale support: 30 days" data-ar="دعم ما بعد البيع: 30 يوم">After-sale support: 30 days</span>
+            <ul class="price-list">
+              <li data-en="Everything in Basic" data-ar="كل ما في الأساسي">Everything in Basic</li>
+              <li data-en="Anti-Nuke" data-ar="مضاد النيوك">Anti-Nuke</li>
+              <li data-en="Anti-Raid" data-ar="مضاد الرايد">Anti-Raid</li>
+              <li data-en="AutoMod" data-ar="أوتومود">AutoMod</li>
+              <li data-en="Risk scoring" data-ar="نظام نقاط الخطر">Risk scoring</li>
+              <li data-en="Verification system" data-ar="نظام تحقق">Verification system</li>
+              <li data-en="30 days after-sale support" data-ar="30 يوم دعم ما بعد البيع">30 days after-sale support</li>
+            </ul>
+            <a class="btn btn-primary" href="#contact">
+              <span data-en="BUILD STANDARD" data-ar="ابنِ القياسي">BUILD STANDARD</span>
+            </a>
           </article>
+
           <article class="price-card">
-            <div class="price-content">
-              <span class="price-kicker" data-en="ALL-IN-ONE" data-ar="كل حاجة مع بعض">ALL-IN-ONE</span>
-              <div class="price-amount">
-                <span class="price-currency">EGP</span>
-                <span>850</span>
-              </div>
-              <span class="price-period" data-en="ONE-TIME PAYMENT" data-ar="دفعة واحدة">ONE-TIME PAYMENT</span>
-              <ul class="price-list">
-                <li data-en="Everything Included In GuardBot PRO" data-ar="كل مميزات باقة PRO">Everything Included In GuardBot PRO</li>
-                <li data-en="Leveling + XP System" data-ar="نظام المستويات + نقاط XP">Leveling + XP System</li>
-                <li data-en="Economy + Shop System" data-ar="نظام الاقتصاد + المتجر">Economy + Shop System</li>
-                <li data-en="Fun Games &amp; Commands" data-ar="ألعاب وترفيه للأعضاء">Fun Games &amp; Commands</li>
-                <li data-en="Leaderboard + Rewards" data-ar="ترتيب المتصدرين + مكافآت">Leaderboard + Rewards</li>
-                <li data-en="Extra Custom Tweaks On Request" data-ar="تعديلات بسيطة حسب طلبك">Extra Custom Tweaks On Request</li>
-                <li data-en="Extended Testing + 14 Days After-Sale Support" data-ar="اختبار أكثر دقة + دعم 14 يوم بعد التسليم">Extended Testing + 14 Days After-Sale Support</li>
-              </ul>
-              <a class="btn btn-ghost" href="#contact">
-                <span data-en="ORDER THIS PACKAGE" data-ar="اطلب هذه الباقة">ORDER THIS PACKAGE</span>
-              </a>
+            <span class="price-kicker" data-en="PREMIUM" data-ar="مميز">PREMIUM</span>
+            <div class="price-amount">
+              <span>$349</span>
+              <span class="egp">/ 8,500 EGP</span>
             </div>
+            <span class="price-meta" data-en="After-sale support: 60 days" data-ar="دعم ما بعد البيع: 60 يوم">After-sale support: 60 days</span>
+            <ul class="price-list">
+              <li data-en="Everything in Standard" data-ar="كل ما في القياسي">Everything in Standard</li>
+              <li data-en="Leveling system" data-ar="نظام مستويات">Leveling system</li>
+              <li data-en="Economy system" data-ar="نظام اقتصاد">Economy system</li>
+              <li data-en="Custom commands" data-ar="أوامر مخصصة">Custom commands</li>
+              <li data-en="Leaderboard" data-ar="ترتيب المتصدرين">Leaderboard</li>
+              <li data-en="Extended testing" data-ar="فحص ممتد">Extended testing</li>
+              <li data-en="60 days after-sale support" data-ar="60 يوم دعم ما بعد البيع">60 days after-sale support</li>
+            </ul>
+            <a class="btn btn-ghost" href="#contact">
+              <span data-en="BUILD PREMIUM" data-ar="ابنِ المميز">BUILD PREMIUM</span>
+            </a>
           </article>
         </div>
         <p class="price-note"
-          data-en="* Prices are for Egyptian clients only. International orders via Fiverr are priced in USD ($49 – $95). Order directly on Fiverr for buyer protection &amp; reviews."
-          data-ar="* الأسعار دي مخصصة للعملاء المصريين فقط. لو هتطلب من بره مصر عبر Fiverr هتكون الأسعار بالدولار ($49 – $95). اطلب مباشرة عبر Fiverr لحماية المشتري والتقييمات.">
-          * Prices are for Egyptian clients only. International orders via Fiverr are priced in USD ($49 – $95). Order directly on <a href="https://www.fiverr.com/omar_tarek_ghos" target="_blank" rel="noopener" style="color:var(--red);text-decoration:underline;">Fiverr</a> for buyer protection &amp; reviews.
+          data-en="Hosting and ongoing maintenance are quoted separately unless included in your package."
+          data-ar="الاستضافة والصيانة المستمرة تُحدد بشكل منفصل ما لم تُضمّن في باقتك.">
+          Hosting and ongoing maintenance are quoted separately unless included in your package.
         </p>
       </div>
     </section>
 
-    <section id="contact" class="cta">
+    <!-- CONTACT -->
+    <section id="contact">
       <div class="container">
         <div class="cta-panel">
-          <div class="eyebrow">
-            <span data-en="READY TO SECURE YOUR SERVER?" data-ar="جاهز تحمي سيرفرك؟">READY TO SECURE YOUR SERVER?</span>
-          </div>
-          <h2 class="section-title">
-            <span data-en="LET'S" data-ar="يلا">LET'S</span>
-            <span class="red" data-en="LOCK IT DOWN" data-ar="نحميه مع بعض">LOCK IT DOWN</span>
-          </h2>
+          <span class="eyebrow" data-en="READY TO BUILD?" data-ar="جاهز للبناء؟">READY TO BUILD?</span>
+          <h2 class="section-title" data-en="LET'S LOCK IT DOWN" data-ar="لنحمه معًا">LET'S LOCK IT DOWN</h2>
           <p class="section-text"
-            data-en="Send me your server link, needs or questions. I'll reply within a few hours with a clear answer and honest advice."
-            data-ar="كلمني وقول بس إيه اللي محتاجه سيرفرك، أو ابعت لينك السيرفر لو عايز أبدأ مباشرة. هرد عليك خلال ساعات بأسرع ما أقدر.">
-            Send me your server link, needs or questions. I'll reply within a few hours with a clear answer and honest advice.
+            data-en="Send your server link, needs, or questions. I reply within a few hours with a clear answer and honest advice."
+            data-ar="أرسل لينك سيرفرك، احتياجاتك، أو أسئلتك. هرد عليك خلال ساعات بأسرع ما أقدر مع إجابة واضحة ونصيحة صادقة.">
+            Send your server link, needs, or questions. I reply within a few hours with a clear answer and honest advice.
           </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="https://www.fiverr.com/omar_tarek_ghos" target="_blank" rel="noopener">
-              <span data-en="ORDER ON FIVERR" data-ar="اطلب عبر Fiverr">ORDER ON FIVERR</span>
-              <i class="bi bi-bag-check"></i>
-            </a>
-            <a class="btn btn-ghost" href="https://wa.me/201116566653" target="_blank" rel="noopener">
+          <div class="contact-actions">
+            <a class="btn btn-primary" href="https://wa.me/201116566653" target="_blank" rel="noopener">
               <span data-en="WHATSAPP" data-ar="واتساب">WHATSAPP</span>
               <i class="bi bi-whatsapp"></i>
             </a>
-            <a class="btn btn-ghost" href="https://linktr.ee/gh_GHOST" target="_blank" rel="noopener">
-              <span data-en="CONTACT VIA LINKTREE" data-ar="تواصل عبر Linktree">CONTACT VIA LINKTREE</span>
-              <i class="bi bi-link-45deg"></i>
+            <a class="btn btn-ghost" href="https://www.fiverr.com/omar_tarek_ghos" target="_blank" rel="noopener">
+              <span data-en="ORDER ON FIVERR" data-ar="اطلب عبر Fiverr">ORDER ON FIVERR</span>
+              <i class="bi bi-bag"></i>
             </a>
             <a class="btn btn-ghost" href="mailto:o.tarek2250@gmail.com">
-              <span data-en="SEND EMAIL" data-ar="أرسل إيميل">SEND EMAIL</span>
+              <span data-en="EMAIL" data-ar="إيميل">EMAIL</span>
               <i class="bi bi-envelope"></i>
             </a>
           </div>
@@ -939,7 +808,7 @@
 
   <footer>
     <div class="container">
-      <span>© 2026 CYBERGUARD — DISCORD SERVER SECURITY &amp; GUARDBOT SPECIALIST</span>
+      <span data-en="© 2026 CYBERGUARD STUDIO — CUSTOM DISCORD BOT DEVELOPMENT" data-ar="© 2026 CYBERGUARD STUDIO — تطوير بوتات ديسكورد مخصصة">© 2026 CYBERGUARD STUDIO — CUSTOM DISCORD BOT DEVELOPMENT</span>
     </div>
   </footer>
 
@@ -965,6 +834,21 @@
     navLinks.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => navLinks.classList.remove("active"));
     });
+
+    // active nav highlight on scroll
+    const sections = document.querySelectorAll("section[id]");
+    const navAs = document.querySelectorAll(".nav-links a[href^='#']");
+    const onScroll = () => {
+      let current = "";
+      sections.forEach((s) => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.id;
+      });
+      navAs.forEach((a) => {
+        a.classList.toggle("active", a.getAttribute("href") === "#" + current);
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
   </script>
 </body>
 
